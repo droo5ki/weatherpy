@@ -1,7 +1,7 @@
 import sys
 import requests
 
-def getCityName(zipcode):
+def getResponseFromWunderground(zipcode):
   ''' need to figure out how the '''
   ''' docsting stuff works '''
   
@@ -9,18 +9,26 @@ def getCityName(zipcode):
 
   # construct get request
   
-  r = requests.get(url)
+  return requests.get(url)
 
-  return r.json()['location']['city']
+def getCityName(response):
+ 
+  return response.json()['location']['city']
+
+def getCurrentTemperature(response):
+  print response.json()
+  print 
+  print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+  return "Current temperature is %s" % response.json()['current_observation']['temp_f']
 
 if __name__ == '__main__':
-
-    zipcode = sys.argv[1]
-    if sys.argv < 1:
-        print 'Too few args'
-        exit()
-    else:
-      print getCityName(zipcode)
-
-
+  
+  zipcode = sys.argv[1]
+  if sys.argv < 1:
+     print 'Too few args'
+     exit()
+  else:
+    response = getResponseFromWunderground(zipcode)
+    print getCityName(response)
+    print getCurrentTemperature(response)
     
